@@ -1,5 +1,5 @@
 const scraperObject = {
-	url: 'https://www.securian.com/',
+	url: process.env.SITE_URL,
 	async scraper(browser){
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
@@ -8,9 +8,6 @@ const scraperObject = {
 		await page.waitForSelector('.featurearticlecta');
 		// Get the link to all the required books
 		let urls = await page.$$eval('.dsg-article-block-stacked-img-deep', links => {
-			// Make sure the book to be scraped is in stock
-			// links = links.filter(link => link.querySelector('.instock.availability > i').textContent !== "In stock")
-			// Extract the links from the data
 			links = links.map(el => ({
 				"brief": el.querySelector('.dsg-article-category').textContent,
 				"img": el.querySelector('.dsg-article-image').getAttribute("style").split("url('")[1].split("');")[0],
